@@ -1,8 +1,7 @@
-// @ts-ignore
-import { mount } from "enzyme"
-import { Box, Button, EntityHeader, Sans, Theme } from "palette"
+import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+import { Box, Button, EntityHeader } from "palette"
 import React from "react"
-import { Image } from "react-native"
+import { Image, Text } from "react-native"
 import { RelayProp } from "react-relay"
 import { ContextCard } from "../ContextCard"
 
@@ -15,82 +14,68 @@ jest.unmock("react-relay")
 describe("ContextCard", () => {
   describe("Fair context", () => {
     it("renders fair name correctly", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={fairContextArtwork as any} />
-        </Theme>
-      )
-      expect(component.find(EntityHeader).length).toEqual(1)
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={fairContextArtwork as any} />
+      ).root
 
-      expect(component.find(EntityHeader).text()).toContain(`Market Art + Design 2019`)
+      expect(tree.findAllByType(EntityHeader).length).toEqual(1)
+      expect(tree.findAllByType(EntityHeader)[0].props.name).toContain("Market Art + Design 2019")
     })
 
     it("renders fair image", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={fairContextArtwork as any} />
-        </Theme>
-      )
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={fairContextArtwork as any} />
+      ).root
 
-      expect(component.find(Image)).toHaveLength(1)
+      expect(tree.findAllByType(Image)).toHaveLength(1)
     })
   })
 
   describe("Show context", () => {
     it("renders show name correctly", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
-        </Theme>
-      )
-      expect(component.find(EntityHeader).length).toEqual(1)
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
+      ).root
 
-      expect(component.find(EntityHeader).text()).toContain(`Time Lapse`)
+      expect(tree.findAllByType(EntityHeader).length).toEqual(1)
+      expect(tree.findAllByType(EntityHeader)[0].props.name).toContain("Time Lapse")
     })
 
     it("renders show image", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
-        </Theme>
-      )
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
+      ).root
 
-      expect(component.find(Image)).toHaveLength(1)
+      expect(tree.findAllByType(Image)).toHaveLength(1)
     })
 
     it("renders show button text correctly", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
-        </Theme>
-      )
-      expect(component.find(Button)).toHaveLength(1)
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
+      ).root
 
-      expect(component.find(Button).at(0).render().text()).toMatchInlineSnapshot(`"FollowFollowing"`)
+      expect(tree.findAllByType(Button)).toHaveLength(1)
+      expect(tree.findAllByType(Button)[0].props.children).toContain("Follow")
     })
   })
 
   describe("Sale context", () => {
     it("renders sale name correctly", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
-        </Theme>
-      )
-      expect(component.find(EntityHeader).length).toEqual(1)
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
+      ).root
 
-      expect(component.find(EntityHeader).text()).toContain(`Christie’s: Prints & Multiples`)
+      expect(tree.findAllByType(EntityHeader).length).toEqual(1)
+      expect(tree.findAllByType(EntityHeader)[0].props.name).toContain("Christie’s: Prints & Multiples")
     })
 
     it("renders formatted sale start/end date correctly", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
-        </Theme>
-      )
-      expect(component.find(EntityHeader).length).toEqual(1)
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
+      ).root
 
-      expect(component.find(EntityHeader).text()).toContain(`Ended Oct 25, 2018`)
+      expect(tree.findAllByType(EntityHeader).length).toEqual(1)
+      expect(tree.findAllByType(EntityHeader)[0].props.meta).toContain("Ended Oct 25, 2018")
     })
 
     it("if auction is live display in progress", () => {
@@ -101,34 +86,28 @@ describe("ContextCard", () => {
           formattedStartDateTime: "In progress",
         },
       }
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={saleContextArtwork as any} />
-        </Theme>
-      )
-      expect(component.find(EntityHeader).length).toEqual(1)
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={saleContextArtwork as any} />
+      ).root
 
-      expect(component.find(EntityHeader).text()).toContain("In progress")
+      expect(tree.findAllByType(EntityHeader).length).toEqual(1)
+      expect(tree.findAllByType(EntityHeader)[0].props.meta).toContain("In progress")
     })
 
     it("renders sale image", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
-        </Theme>
-      )
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
+      ).root
 
-      expect(component.find(Image)).toHaveLength(1)
+      expect(tree.findAllByType(Image)).toHaveLength(1)
     })
 
     it("renders 'In Auction' if the sale is an auction", () => {
-      const component = mount(
-        <Theme>
-          <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
-        </Theme>
-      )
+      const tree = renderWithWrappers(
+        <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
+      ).root
 
-      expect(component.find(Sans).at(0).render().text()).toMatchInlineSnapshot(`"In auction"`)
+      expect(tree.findAllByType(Text)[0].props.children).toContain("In auction")
     })
 
     it("renders nothing if the sale is not an auction", () => {
@@ -139,11 +118,11 @@ describe("ContextCard", () => {
           isAuction: false,
         },
       }
-      const component = mount(
+      const tree = renderWithWrappers(
         <ContextCard relay={{ environment: {} } as RelayProp} artwork={saleContextArtwork as any} />
-      )
+      ).root
 
-      expect(component.find(Box).length).toBe(0)
+      expect(tree.findAllByType(Box).length).toBe(0)
     })
   })
 })
