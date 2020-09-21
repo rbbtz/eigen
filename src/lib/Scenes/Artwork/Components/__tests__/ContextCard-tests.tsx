@@ -19,7 +19,7 @@ describe("ContextCard", () => {
       ).root
 
       expect(tree.findAllByType(EntityHeader).length).toEqual(1)
-      expect(tree.findAllByType(EntityHeader)[0].props.name).toContain("Market Art + Design 2019")
+      expect(tree.findAllByType(EntityHeader)[0].props.name).toMatch("Market Art + Design 2019")
     })
 
     it("renders fair image", () => {
@@ -38,7 +38,7 @@ describe("ContextCard", () => {
       ).root
 
       expect(tree.findAllByType(EntityHeader).length).toEqual(1)
-      expect(tree.findAllByType(EntityHeader)[0].props.name).toContain("Time Lapse")
+      expect(tree.findAllByType(EntityHeader)[0].props.name).toMatch("Time Lapse")
     })
 
     it("renders show image", () => {
@@ -55,7 +55,7 @@ describe("ContextCard", () => {
       ).root
 
       expect(tree.findAllByType(Button)).toHaveLength(1)
-      expect(tree.findAllByType(Button)[0].props.children).toContain("Follow")
+      expect(tree.findAllByType(Button)[0].props.children).toMatch("Follow")
     })
   })
 
@@ -66,7 +66,7 @@ describe("ContextCard", () => {
       ).root
 
       expect(tree.findAllByType(EntityHeader).length).toEqual(1)
-      expect(tree.findAllByType(EntityHeader)[0].props.name).toContain("Christie’s: Prints & Multiples")
+      expect(tree.findAllByType(EntityHeader)[0].props.name).toMatch("Christie’s: Prints & Multiples")
     })
 
     it("renders formatted sale start/end date correctly", () => {
@@ -75,7 +75,7 @@ describe("ContextCard", () => {
       ).root
 
       expect(tree.findAllByType(EntityHeader).length).toEqual(1)
-      expect(tree.findAllByType(EntityHeader)[0].props.meta).toContain("Ended Oct 25, 2018")
+      expect(tree.findAllByType(EntityHeader)[0].props.meta).toMatch("Ended Oct 25, 2018")
     })
 
     it("if auction is live display in progress", () => {
@@ -91,7 +91,7 @@ describe("ContextCard", () => {
       ).root
 
       expect(tree.findAllByType(EntityHeader).length).toEqual(1)
-      expect(tree.findAllByType(EntityHeader)[0].props.meta).toContain("In progress")
+      expect(tree.findAllByType(EntityHeader)[0].props.meta).toMatch("In progress")
     })
 
     it("renders sale image", () => {
@@ -107,7 +107,7 @@ describe("ContextCard", () => {
         <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
       ).root
 
-      expect(tree.findAllByType(Text)[0].props.children).toContain("In auction")
+      expect(tree.findAllByType(Text)[0].props.children).toMatch("In auction")
     })
 
     it("renders nothing if the sale is not an auction", () => {

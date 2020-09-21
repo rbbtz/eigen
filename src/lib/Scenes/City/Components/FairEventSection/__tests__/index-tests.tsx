@@ -21,6 +21,6 @@ describe("FairEventSection", () => {
   it("renders properly", () => {
     const tree = renderWithWrappers(<FairEventSection data={data} citySlug="tefaf-new-york-fall-2019" />).root
 
-    expect(tree.findAllByType(Text)[1].props.children).toContain("TEFAF New York Fall 2019")
+    expect(tree.findAllByType(Text)[1].props.children).toMatch("TEFAF New York Fall 2019")
   })
 })

@@ -1,23 +1,21 @@
-// @ts-ignore STRICTNESS_MIGRATION
-import { mount } from "enzyme"
-import { Sans, Theme } from "palette"
+import { renderWithWrappers } from "lib/tests/renderWithWrappers"
 import React from "react"
+import { Text } from "react-native"
 import { CommercialPartnerInformation } from "../CommercialPartnerInformation"
 
 describe("CommercialPartnerInformation", () => {
   it("renders all seller information when work is for sale and is not in a closed auction", () => {
-    const component = mount(
-      <Theme>
-        <CommercialPartnerInformation
-          // @ts-ignore STRICTNESS_MIGRATION
-          artwork={CommercialPartnerInformationArtwork}
-        />
-      </Theme>
-    )
-    expect(component.find(Sans).at(0).render().text()).toMatchInlineSnapshot(`"From Bob's Gallery"`)
-    expect(component.find(Sans).at(1).render().text()).toMatchInlineSnapshot(`"Ships from Brooklyn"`)
-    expect(component.find(Sans).at(2).render().text()).toMatchInlineSnapshot(`"Ships within the continental USA"`)
-    expect(component.find(Sans).at(3).render().text()).toMatchInlineSnapshot(`"VAT included in price"`)
+    const tree = renderWithWrappers(
+      <CommercialPartnerInformation
+        // @ts-ignore STRICTNESS_MIGRATION
+        artwork={CommercialPartnerInformationArtwork}
+      />
+    ).root
+
+    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("From Bob's Gallery")
+    expect(tree.findAllByType(Text)[1].props.children.join("")).toMatch("Ships from Brooklyn")
+    expect(tree.findAllByType(Text)[2].props.children).toMatch("Ships within the continental USA")
+    expect(tree.findAllByType(Text)[3].props.children).toMatch("VAT included in price")
   })
 
   it("hides shipping info for works from closed auctions", () => {
@@ -28,16 +26,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
       isAcquireable: false,
     }
-    const component = mount(
-      <Theme>
-        <CommercialPartnerInformation
-          // @ts-ignore STRICTNESS_MIGRATION
-          artwork={CommercialPartnerInformationArtworkClosedAuction}
-        />
-      </Theme>
-    )
-    expect(component.find(Sans).at(0).render().text()).toMatchInlineSnapshot(`"At Bob's Gallery"`)
-    expect(component.find(Sans).length).toEqual(1)
+    const tree = renderWithWrappers(
+      <CommercialPartnerInformation
+        // @ts-ignore STRICTNESS_MIGRATION
+        artwork={CommercialPartnerInformationArtworkClosedAuction}
+      />
+    ).root
+
+    expect(tree.findAllByType(Text).length).toEqual(1)
+    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("At Bob's Gallery")
   })
 
   it("hides shipping information for sold works", () => {
@@ -48,16 +45,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
       isAcquireable: false,
     }
-    const component = mount(
-      <Theme>
-        <CommercialPartnerInformation
-          // @ts-ignore STRICTNESS_MIGRATION
-          artwork={CommercialPartnerInformationArtworkClosedAuction}
-        />
-      </Theme>
-    )
-    expect(component.find(Sans).at(0).render().text()).toMatchInlineSnapshot(`"From Bob's Gallery"`)
-    expect(component.find(Sans).length).toEqual(1)
+    const tree = renderWithWrappers(
+      <CommercialPartnerInformation
+        // @ts-ignore STRICTNESS_MIGRATION
+        artwork={CommercialPartnerInformationArtworkClosedAuction}
+      />
+    ).root
+
+    expect(tree.findAllByType(Text).length).toEqual(1)
+    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("From Bob's Gallery")
   })
 
   it("Hides shipping/tax information if the work is not enabled for buy now or make offer", () => {
@@ -67,17 +63,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
     }
 
-    const component = mount(
-      <Theme>
-        <CommercialPartnerInformation
-          // @ts-ignore STRICTNESS_MIGRATION
-          artwork={CommercialPartnerInformationNoEcommerce}
-        />
-      </Theme>
-    )
+    const tree = renderWithWrappers(
+      <CommercialPartnerInformation
+        // @ts-ignore STRICTNESS_MIGRATION
+        artwork={CommercialPartnerInformationNoEcommerce}
+      />
+    ).root
 
-    expect(component.find(Sans).at(0).render().text()).toMatchInlineSnapshot(`"From Bob's Gallery"`)
-    expect(component.find(Sans).length).toEqual(1)
+    expect(tree.findAllByType(Text).length).toEqual(1)
+    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("From Bob's Gallery")
   })
 
   it("Says 'At Gallery Name' instead of 'From Gallery Name' and hides shipping info for non-commercial works", () => {
@@ -88,16 +82,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
       isAcquireable: false,
     }
-    const component = mount(
-      <Theme>
-        <CommercialPartnerInformation
-          // @ts-ignore STRICTNESS_MIGRATION
-          artwork={CommercialPartnerInformationArtworkClosedAuction}
-        />
-      </Theme>
-    )
-    expect(component.find(Sans).at(0).render().text()).toMatchInlineSnapshot(`"At Bob's Gallery"`)
-    expect(component.find(Sans).length).toEqual(1)
+    const tree = renderWithWrappers(
+      <CommercialPartnerInformation
+        // @ts-ignore STRICTNESS_MIGRATION
+        artwork={CommercialPartnerInformationArtworkClosedAuction}
+      />
+    ).root
+
+    expect(tree.findAllByType(Text).length).toEqual(1)
+    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("At Bob's Gallery")
   })
 })
 
