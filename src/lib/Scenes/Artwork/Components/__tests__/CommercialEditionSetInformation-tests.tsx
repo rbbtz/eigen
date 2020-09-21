@@ -1,8 +1,9 @@
-// @ts-ignore STRICTNESS_MIGRATION
-import { mount } from "enzyme"
-import { Theme } from "palette"
 import React from "react"
-import { TouchableWithoutFeedback } from "react-native"
+import { Text, TouchableWithoutFeedback } from "react-native"
+
+import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+
+import { act } from "react-test-renderer"
 import { CommercialEditionSetInformation } from "../CommercialEditionSetInformation"
 
 const artwork = {
@@ -36,24 +37,19 @@ const artwork = {
 
 describe("CommercialEditionSetInformation", () => {
   it("changes displays first edition price", () => {
-    const component = mount(
-      <Theme>
-        <CommercialEditionSetInformation setEditionSetId={() => null} artwork={artwork as any} />
-      </Theme>
-    )
+    const tree = renderWithWrappers(
+      <CommercialEditionSetInformation setEditionSetId={() => null} artwork={artwork as any} />
+    ).root
 
-    expect(component.html()).toContain("$1")
+    expect(tree.findAllByType(Text)[3].props.children).toMatch("$1")
   })
 
   it("changes display price to selected edition set", () => {
-    const component = mount(
-      <Theme>
-        <CommercialEditionSetInformation setEditionSetId={() => null} artwork={artwork as any} />
-      </Theme>
-    )
+    const tree = renderWithWrappers(
+      <CommercialEditionSetInformation setEditionSetId={() => null} artwork={artwork as any} />
+    ).root
 
-    const secondEditionSelect = component.find(TouchableWithoutFeedback).at(1)
-    secondEditionSelect.props().onPress()
-    expect(component.html()).toContain("$2")
+    act(() => tree.findAllByType(TouchableWithoutFeedback)[1].props.onPress())
+    expect(tree.findAllByType(Text)[3].props.children).toMatch("$2")
   })
 })

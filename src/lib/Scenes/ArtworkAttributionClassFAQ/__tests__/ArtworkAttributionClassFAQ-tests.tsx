@@ -1,8 +1,6 @@
-// @ts-ignore STRICTNESS_MIGRATION
-import { mount } from "enzyme"
+import { renderWithWrappers } from "lib/tests/renderWithWrappers"
 import { Button, Sans } from "palette"
 import React from "react"
-import { Text } from "react-native"
 import { ArtworkAttributionClassFAQ } from "../ArtworkAttributionClassFAQ"
 
 jest.mock("lib/NativeModules/SwitchBoard", () => ({
@@ -10,53 +8,60 @@ jest.mock("lib/NativeModules/SwitchBoard", () => ({
 }))
 
 import SwitchBoard from "lib/NativeModules/SwitchBoard"
+import { act } from "react-test-renderer"
 
 describe("ArtworkAttributionClassFAQ", () => {
   it("renders FAQ header", () => {
-    const component = mount(
+    const tree = renderWithWrappers(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    )
-    expect(component.find(Sans).at(0).text()).toEqual("Artwork classifications")
+    ).root
+
+    expect(tree.findAllByType(Sans)[0].props.children).toMatch("Artwork classifications")
   })
 
   it("renders Ok button", () => {
-    const component = mount(
+    const tree = renderWithWrappers(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    )
-    expect(component.find(Button).find(Text).at(0).text()).toEqual("OK")
+    ).root
+
+    expect(tree.findAllByType(Button)[0].props.children).toMatch("OK")
   })
 
   it("renders attribution classes", () => {
-    const component = mount(
+    const tree = renderWithWrappers(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    )
-    expect(component.find(Sans).at(1).text()).toEqual("Unique")
-    expect(component.find(Sans).at(2).text()).toEqual("One of a kind piece, created by the artist.")
-    expect(component.find(Sans)).toHaveLength(17)
+    ).root
+
+    expect(tree.findAllByType(Sans)).toHaveLength(17)
+    expect(tree.findAllByType(Sans)[1].props.children).toMatch("Unique")
+    expect(tree.findAllByType(Sans)[2].props.children).toMatch("One of a kind piece, created by the artist.")
   })
 
   it("returns to previous page when ok button is clicked", () => {
-    const component = mount(
+    const tree = renderWithWrappers(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    )
-    const okButton = component.find(Button).at(0)
-    okButton.props().onPress()
+    ).root
+
+    act(() => {
+      const okButton = tree.findAllByType(Button)[0]
+      okButton.props.onPress()
+    })
     expect(SwitchBoard.dismissNavigationViewController).toHaveBeenCalled()
   })
 })

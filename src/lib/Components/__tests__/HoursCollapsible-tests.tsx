@@ -1,9 +1,8 @@
-// @ts-ignore STRICTNESS_MIGRATION
-import { mount } from "enzyme"
 import { Markdown } from "lib/Components/Markdown"
-import { Theme } from "palette"
+import { renderWithWrappers } from "lib/tests/renderWithWrappers"
 import React from "react"
-import { TouchableWithoutFeedback } from "react-native"
+import { Text, TouchableWithoutFeedback } from "react-native"
+import { act } from "react-test-renderer"
 import { HoursCollapsible } from "../HoursCollapsible"
 
 describe("HoursCollapsible", () => {
@@ -12,25 +11,17 @@ describe("HoursCollapsible", () => {
   }
 
   it("renders properly", () => {
-    const comp = mount(
-      <Theme>
-        <HoursCollapsible openingHours={hours} />
-      </Theme>
-    )
+    const tree = renderWithWrappers(<HoursCollapsible openingHours={hours} />).root
 
-    expect(comp.text()).toContain("Opening hours")
+    expect(tree.findAllByType(Text)[0].props.children).toMatch("Opening hours")
   })
 
   it("expands when pressed", () => {
-    const comp = mount(
-      <Theme>
-        <HoursCollapsible openingHours={hours} />
-      </Theme>
-    )
+    const tree = renderWithWrappers(<HoursCollapsible openingHours={hours} />).root
 
-    comp.find(TouchableWithoutFeedback).props().onPress()
+    act(() => tree.findAllByType(TouchableWithoutFeedback)[0].props.onPress())
 
-    expect(comp.text()).toContain(hours.text)
+    expect(tree.findAllByType(Text)[1].props.children.join("")).toMatch(hours.text)
   })
 
   it("renders markdown", () => {
@@ -38,16 +29,10 @@ describe("HoursCollapsible", () => {
       text: "**Collectors Preview**\r\nNovember 8 Thursday 14:00 to 20:00\r\n [November 9th](http://foo.bar)",
     }
 
-    const comp = mount(
-      <Theme>
-        <HoursCollapsible openingHours={markdownHours} />
-      </Theme>
-    )
+    const tree = renderWithWrappers(<HoursCollapsible openingHours={markdownHours} />).root
 
-    comp.find(TouchableWithoutFeedback).props().onPress()
+    act(() => tree.findAllByType(TouchableWithoutFeedback)[0].props.onPress())
 
-    comp.update()
-
-    expect(comp.find(Markdown).length).toEqual(1)
+    expect(tree.findAllByType(Markdown).length).toEqual(1)
   })
 })

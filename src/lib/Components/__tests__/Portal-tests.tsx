@@ -1,13 +1,13 @@
-// @ts-ignore STRICTNESS_MIGRATION
-import { mount } from "enzyme"
 import React from "react"
-
 import { Text, View } from "react-native"
+
+import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+
 import { Portal, PortalProvider } from "../Portal"
 
 describe("Portal", () => {
   it("Renders children as children of PortalProvider", () => {
-    const tree = mount(
+    const tree = renderWithWrappers(
       <PortalProvider>
         <View>
           <Text>Foo Bar</Text>
@@ -16,7 +16,8 @@ describe("Portal", () => {
           </Portal>
         </View>
       </PortalProvider>
-    )
-    expect(tree.find(PortalProvider).children(Text).text()).toBe("Bar Baz")
+    ).root
+
+    expect(tree.findAllByType(Text)[1].props.children).toMatch("Bar Baz")
   })
 })

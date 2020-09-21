@@ -1,7 +1,6 @@
-// @ts-ignore STRICTNESS_MIGRATION
-import { mount } from "enzyme"
-import { Theme } from "palette"
+import { renderWithWrappers } from "lib/tests/renderWithWrappers"
 import React from "react"
+import { Text } from "react-native"
 import { RelayProp } from "react-relay"
 import { BMWEventSection } from "../index"
 
@@ -21,24 +20,22 @@ const show = {
 
 describe("CityEvent", () => {
   it("renders properly", () => {
-    const comp = mount(
-      <Theme>
-        <BMWEventSection
-          title="BMW Art Guide"
-          sponsoredContent={{
-            introText: "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
-            artGuideUrl: "http://www.example.com",
-            shows: {
-              totalCount: 2,
-            },
-            featuredShows: [show as any],
-          }}
-          relay={{ environment: {} } as RelayProp}
-          citySlug={"new-york-us"}
-        />
-      </Theme>
-    )
+    const tree = renderWithWrappers(
+      <BMWEventSection
+        title="BMW Art Guide"
+        sponsoredContent={{
+          introText: "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
+          artGuideUrl: "http://www.example.com",
+          shows: {
+            totalCount: 2,
+          },
+          featuredShows: [show as any],
+        }}
+        relay={{ environment: {} } as RelayProp}
+        citySlug={"new-york-us"}
+      />
+    ).root
 
-    expect(comp.text()).toContain("BMW Art Guide")
+    expect(tree.findAllByType(Text)[0].props.children).toMatch("BMW Art Guide")
   })
 })
