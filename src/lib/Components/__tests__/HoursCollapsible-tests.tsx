@@ -1,8 +1,9 @@
+import { fireEvent } from "@testing-library/react-native"
 import { Markdown } from "lib/Components/Markdown"
-import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
+import { Collapse } from "palette"
 import React from "react"
-import { Text, TouchableWithoutFeedback } from "react-native"
-import { act } from "react-test-renderer"
+import { TouchableWithoutFeedback } from "react-native"
 import { HoursCollapsible } from "../HoursCollapsible"
 
 describe("HoursCollapsible", () => {
@@ -11,17 +12,18 @@ describe("HoursCollapsible", () => {
   }
 
   it("renders properly", () => {
-    const tree = renderWithWrappers(<HoursCollapsible openingHours={hours} />).root
+    const tree = renderWithWrappers2(<HoursCollapsible openingHours={hours} />)
 
-    expect(tree.findAllByType(Text)[0].props.children).toMatch("Opening hours")
+    expect(tree.getByText("Opening hours")).toBeTruthy()
+    expect(tree.UNSAFE_getByType(Collapse).props.open).toBe(false)
   })
 
   it("expands when pressed", () => {
-    const tree = renderWithWrappers(<HoursCollapsible openingHours={hours} />).root
+    const tree = renderWithWrappers2(<HoursCollapsible openingHours={hours} />)
 
-    act(() => tree.findAllByType(TouchableWithoutFeedback)[0].props.onPress())
+    fireEvent.press(tree.UNSAFE_getByType(TouchableWithoutFeedback))
 
-    expect(tree.findAllByType(Text)[1].props.children.join("")).toMatch(hours.text)
+    expect(tree.UNSAFE_getByType(Collapse).props.open).toBe(true)
   })
 
   it("renders markdown", () => {
@@ -29,10 +31,10 @@ describe("HoursCollapsible", () => {
       text: "**Collectors Preview**\r\nNovember 8 Thursday 14:00 to 20:00\r\n [November 9th](http://foo.bar)",
     }
 
-    const tree = renderWithWrappers(<HoursCollapsible openingHours={markdownHours} />).root
+    const tree = renderWithWrappers2(<HoursCollapsible openingHours={markdownHours} />)
 
-    act(() => tree.findAllByType(TouchableWithoutFeedback)[0].props.onPress())
+    fireEvent.press(tree.UNSAFE_getByType(TouchableWithoutFeedback))
 
-    expect(tree.findAllByType(Markdown).length).toEqual(1)
+    expect(tree.UNSAFE_getAllByType(Markdown)).toHaveLength(1)
   })
 })

@@ -1,3 +1,4 @@
+import { render } from "@testing-library/react-native"
 import { AppStoreProvider } from "lib/store/AppStore"
 import { Theme } from "palette"
 import React from "react"
@@ -21,6 +22,11 @@ export const renderWithWrappers = (component: ReactElement) => {
   }
 
   return renderedComponent
+}
+
+export const renderWithWrappers2 = (component: ReactElement) => {
+  const wrappedComponent = componentWithWrappers(component)
+  return render(wrappedComponent)
 }
 
 /**

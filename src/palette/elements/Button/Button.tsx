@@ -28,6 +28,8 @@ export interface ButtonProps extends ButtonBaseProps {
   variant?: ButtonVariant
   /** React Native only, Callback on press, use instead of onClick */
   onPress?: (event: GestureResponderEvent) => void
+
+  testID?: string
 }
 
 export interface ButtonBaseProps extends BoxProps {
@@ -238,9 +240,12 @@ export const Button: React.FC<ButtonProps> = (props) => {
                     {children}
                   </Sans>
                 </VisibleTextContainer>
-                <HiddenText role="presentation" weight="medium" size={s.size}>
-                  {longestText ? longestText : children}
-                </HiddenText>
+                {!__TEST__ && (
+                  // this is used to make the button sized to fit the longest text
+                  <HiddenText role="presentation" weight="medium" size={s.size}>
+                    {longestText ? longestText : children}
+                  </HiddenText>
+                )}
 
                 {!!loading && <Spinner size={size} color={spinnerColor} />}
               </AnimatedContainer>

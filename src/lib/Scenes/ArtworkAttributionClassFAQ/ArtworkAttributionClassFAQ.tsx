@@ -42,7 +42,7 @@ export const ArtworkAttributionClassFAQ: React.FC<Props> = ({ artworkAttribution
             Our partners are responsible for providing accurate classification information for all works.
           </Sans>
           <Box height={30}>
-            <Button onPress={() => SwitchBoard.dismissNavigationViewController(navRef.current)} block>
+            <Button testID="okButton" onPress={() => SwitchBoard.dismissNavigationViewController(navRef.current)} block>
               OK
             </Button>
           </Box>

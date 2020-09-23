@@ -1,67 +1,64 @@
-import { renderWithWrappers } from "lib/tests/renderWithWrappers"
-import { Button, Sans } from "palette"
+import { fireEvent } from "@testing-library/react-native"
 import React from "react"
-import { ArtworkAttributionClassFAQ } from "../ArtworkAttributionClassFAQ"
-
-jest.mock("lib/NativeModules/SwitchBoard", () => ({
-  dismissNavigationViewController: jest.fn(),
-}))
+import { Text } from "react-native"
 
 import SwitchBoard from "lib/NativeModules/SwitchBoard"
-import { act } from "react-test-renderer"
+import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
+
+import { ArtworkAttributionClassFAQ } from "../ArtworkAttributionClassFAQ"
+
+jest.mock("lib/NativeModules/SwitchBoard", () => ({ dismissNavigationViewController: jest.fn() }))
 
 describe("ArtworkAttributionClassFAQ", () => {
   it("renders FAQ header", () => {
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Sans)[0].props.children).toMatch("Artwork classifications")
+    expect(tree.getByText("Artwork classifications")).toBeTruthy()
   })
 
-  it("renders Ok button", () => {
-    const tree = renderWithWrappers(
+  it("renders OK button", () => {
+    const tree = renderWithWrappers2(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Button)[0].props.children).toMatch("OK")
+    expect(tree.getByTestId("okButton")).toBeTruthy()
   })
 
   it("renders attribution classes", () => {
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Sans)).toHaveLength(17)
-    expect(tree.findAllByType(Sans)[1].props.children).toMatch("Unique")
-    expect(tree.findAllByType(Sans)[2].props.children).toMatch("One of a kind piece, created by the artist.")
+    expect(tree.UNSAFE_getAllByType(Text)).toHaveLength(17)
+    expect(tree.getByText("Unique")).toBeTruthy()
+    expect(tree.getByText("One of a kind piece, created by the artist.")).toBeTruthy()
   })
 
   it("returns to previous page when ok button is clicked", () => {
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <ArtworkAttributionClassFAQ
         safeAreaInsets={{ top: 20, left: 0, right: 0, bottom: 0 }}
         // @ts-ignore STRICTNESS_MIGRATION
         artworkAttributionClasses={attributionClasses}
       />
-    ).root
+    )
 
-    act(() => {
-      const okButton = tree.findAllByType(Button)[0]
-      okButton.props.onPress()
-    })
+    fireEvent.press(tree.getByTestId("okButton"))
+
     expect(SwitchBoard.dismissNavigationViewController).toHaveBeenCalled()
   })
 })
