@@ -5,6 +5,22 @@ import React from "react"
 import ReactTestRenderer from "react-test-renderer"
 import { ReactElement } from "simple-markdown"
 
+export const Wrappers: React.FC = ({ children }) => {
+  return (
+    <AppStoreProvider>
+      <Theme>{children}</Theme>
+    </AppStoreProvider>
+  )
+}
+
+/**
+ * Returns given component wrapped with our page wrappers
+ * @param component
+ */
+export const componentWithWrappers = (component: ReactElement) => {
+  return <Wrappers>{component}</Wrappers>
+}
+
 /**
  * Renders a React Component with our page wrappers
  * only <Theme> for now
@@ -25,19 +41,5 @@ export const renderWithWrappers = (component: ReactElement) => {
 }
 
 export const renderWithWrappers2 = (component: ReactElement) => {
-  const wrappedComponent = componentWithWrappers(component)
-  return render(wrappedComponent)
-}
-
-/**
- * Returns given component wrapped with our page wrappers
- * only <Theme> for now
- * @param component
- */
-export const componentWithWrappers = (component: ReactElement) => {
-  return (
-    <AppStoreProvider>
-      <Theme>{component}</Theme>
-    </AppStoreProvider>
-  )
+  return render(component, { wrapper: Wrappers })
 }

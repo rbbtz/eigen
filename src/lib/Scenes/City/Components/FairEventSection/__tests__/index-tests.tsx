@@ -1,6 +1,5 @@
-import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
 import React from "react"
-import { Text } from "react-native"
 import { FairEventSection } from "../index"
 
 const data = [
@@ -19,8 +18,8 @@ const data = [
 
 describe("FairEventSection", () => {
   it("renders properly", () => {
-    const tree = renderWithWrappers(<FairEventSection data={data} citySlug="tefaf-new-york-fall-2019" />).root
+    const tree = renderWithWrappers2(<FairEventSection data={data} citySlug="tefaf-new-york-fall-2019" />)
 
-    expect(tree.findAllByType(Text)[1].props.children).toMatch("TEFAF New York Fall 2019")
+    expect(tree.getByText("TEFAF New York Fall 2019")).toBeTruthy()
   })
 })

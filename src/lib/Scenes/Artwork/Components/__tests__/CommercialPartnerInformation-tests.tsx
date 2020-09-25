@@ -1,21 +1,21 @@
-import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
 import React from "react"
 import { Text } from "react-native"
 import { CommercialPartnerInformation } from "../CommercialPartnerInformation"
 
 describe("CommercialPartnerInformation", () => {
   it("renders all seller information when work is for sale and is not in a closed auction", () => {
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <CommercialPartnerInformation
         // @ts-ignore STRICTNESS_MIGRATION
         artwork={CommercialPartnerInformationArtwork}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("From Bob's Gallery")
-    expect(tree.findAllByType(Text)[1].props.children.join("")).toMatch("Ships from Brooklyn")
-    expect(tree.findAllByType(Text)[2].props.children).toMatch("Ships within the continental USA")
-    expect(tree.findAllByType(Text)[3].props.children).toMatch("VAT included in price")
+    expect(tree.getByText("From Bob's Gallery")).toBeTruthy()
+    expect(tree.getByText("Ships from Brooklyn")).toBeTruthy()
+    expect(tree.getByText("Ships within the continental USA")).toBeTruthy()
+    expect(tree.getByText("VAT included in price")).toBeTruthy()
   })
 
   it("hides shipping info for works from closed auctions", () => {
@@ -26,15 +26,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
       isAcquireable: false,
     }
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <CommercialPartnerInformation
         // @ts-ignore STRICTNESS_MIGRATION
         artwork={CommercialPartnerInformationArtworkClosedAuction}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Text).length).toEqual(1)
-    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("At Bob's Gallery")
+    expect(tree.UNSAFE_getAllByType(Text)).toHaveLength(1)
+    expect(tree.getByText("At Bob's Gallery")).toBeTruthy()
   })
 
   it("hides shipping information for sold works", () => {
@@ -45,15 +45,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
       isAcquireable: false,
     }
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <CommercialPartnerInformation
         // @ts-ignore STRICTNESS_MIGRATION
         artwork={CommercialPartnerInformationArtworkClosedAuction}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Text).length).toEqual(1)
-    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("From Bob's Gallery")
+    expect(tree.UNSAFE_getAllByType(Text)).toHaveLength(1)
+    expect(tree.getByText("From Bob's Gallery")).toBeTruthy()
   })
 
   it("Hides shipping/tax information if the work is not enabled for buy now or make offer", () => {
@@ -63,15 +63,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
     }
 
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <CommercialPartnerInformation
         // @ts-ignore STRICTNESS_MIGRATION
         artwork={CommercialPartnerInformationNoEcommerce}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Text).length).toEqual(1)
-    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("From Bob's Gallery")
+    expect(tree.UNSAFE_getAllByType(Text)).toHaveLength(1)
+    expect(tree.getByText("From Bob's Gallery")).toBeTruthy()
   })
 
   it("Says 'At Gallery Name' instead of 'From Gallery Name' and hides shipping info for non-commercial works", () => {
@@ -82,15 +82,15 @@ describe("CommercialPartnerInformation", () => {
       isOfferable: false,
       isAcquireable: false,
     }
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <CommercialPartnerInformation
         // @ts-ignore STRICTNESS_MIGRATION
         artwork={CommercialPartnerInformationArtworkClosedAuction}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Text).length).toEqual(1)
-    expect(tree.findAllByType(Text)[0].props.children.join("")).toMatch("At Bob's Gallery")
+    expect(tree.UNSAFE_getAllByType(Text)).toHaveLength(1)
+    expect(tree.getByText("At Bob's Gallery")).toBeTruthy()
   })
 })
 

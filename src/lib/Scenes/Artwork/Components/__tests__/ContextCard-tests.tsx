@@ -1,33 +1,32 @@
-import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+import { extractText } from "lib/tests/extractText"
+import { renderWithWrappers, renderWithWrappers2 } from "lib/tests/renderWithWrappers"
 import { Box, Button, EntityHeader } from "palette"
 import React from "react"
 import { Image, Text } from "react-native"
 import { RelayProp } from "react-relay"
 import { ContextCard } from "../ContextCard"
 
-jest.mock("lib/NativeModules/SwitchBoard", () => ({
-  presentNavigationViewController: jest.fn(),
-}))
+jest.mock("lib/NativeModules/SwitchBoard", () => ({ presentNavigationViewController: jest.fn() }))
 
 jest.unmock("react-relay")
 
 describe("ContextCard", () => {
   describe("Fair context", () => {
     it("renders fair name correctly", () => {
-      const tree = renderWithWrappers(
+      const tree = renderWithWrappers2(
         <ContextCard relay={{ environment: {} } as RelayProp} artwork={fairContextArtwork as any} />
-      ).root
+      )
 
-      expect(tree.findAllByType(EntityHeader).length).toEqual(1)
-      expect(tree.findAllByType(EntityHeader)[0].props.name).toMatch("Market Art + Design 2019")
+      expect(tree.UNSAFE_getAllByType(EntityHeader)).toHaveLength(1)
+      expect(tree.getByText("Market Art + Design 2019")).toBeTruthy()
     })
 
     it("renders fair image", () => {
-      const tree = renderWithWrappers(
+      const tree = renderWithWrappers2(
         <ContextCard relay={{ environment: {} } as RelayProp} artwork={fairContextArtwork as any} />
-      ).root
+      )
 
-      expect(tree.findAllByType(Image)).toHaveLength(1)
+      expect(tree.UNSAFE_getAllByType(Image)).toHaveLength(1)
     })
   })
 
@@ -42,31 +41,32 @@ describe("ContextCard", () => {
     })
 
     it("renders show image", () => {
-      const tree = renderWithWrappers(
+      const tree = renderWithWrappers2(
         <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
-      ).root
+      )
 
-      expect(tree.findAllByType(Image)).toHaveLength(1)
+      expect(tree.UNSAFE_getAllByType(Image)).toHaveLength(1)
     })
 
     it("renders show button text correctly", () => {
-      const tree = renderWithWrappers(
+      const tree = renderWithWrappers2(
         <ContextCard relay={{ environment: {} } as RelayProp} artwork={showContextArtwork as any} />
-      ).root
+      )
 
-      expect(tree.findAllByType(Button)).toHaveLength(1)
-      expect(tree.findAllByType(Button)[0].props.children).toMatch("Follow")
+      expect(tree.UNSAFE_getAllByType(Button)).toHaveLength(1)
+      expect(tree.UNSAFE_getAllByType(Button).map((b) => extractText(b.props.children))).toContain("Follow")
+      // expect(tree.getByText("Follow", Button)).toBeTruthy()
     })
   })
 
   describe("Sale context", () => {
     it("renders sale name correctly", () => {
-      const tree = renderWithWrappers(
+      const tree = renderWithWrappers2(
         <ContextCard relay={{ environment: {} } as RelayProp} artwork={auctionContextArtwork as any} />
-      ).root
+      )
 
-      expect(tree.findAllByType(EntityHeader).length).toEqual(1)
-      expect(tree.findAllByType(EntityHeader)[0].props.name).toMatch("Christie’s: Prints & Multiples")
+      expect(tree.UNSAFE_getAllByType(EntityHeader)).toHaveLength(1)
+      expect(tree.getByText("Christie’s: Prints & Multiples")).toBeTruthy()
     })
 
     it("renders formatted sale start/end date correctly", () => {

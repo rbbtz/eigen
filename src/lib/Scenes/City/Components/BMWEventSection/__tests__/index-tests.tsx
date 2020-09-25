@@ -1,4 +1,4 @@
-import { renderWithWrappers } from "lib/tests/renderWithWrappers"
+import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
 import React from "react"
 import { Text } from "react-native"
 import { RelayProp } from "react-relay"
@@ -20,7 +20,7 @@ const show = {
 
 describe("CityEvent", () => {
   it("renders properly", () => {
-    const tree = renderWithWrappers(
+    const tree = renderWithWrappers2(
       <BMWEventSection
         title="BMW Art Guide"
         sponsoredContent={{
@@ -34,8 +34,8 @@ describe("CityEvent", () => {
         relay={{ environment: {} } as RelayProp}
         citySlug={"new-york-us"}
       />
-    ).root
+    )
 
-    expect(tree.findAllByType(Text)[0].props.children).toMatch("BMW Art Guide")
+    expect(tree.getByText("BMW Art Guide")).toBeTruthy()
   })
 })
