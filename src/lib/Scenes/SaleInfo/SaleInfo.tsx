@@ -13,7 +13,7 @@ import { createFragmentContainer, graphql, QueryRenderer } from "react-relay"
 import { PlaceholderBox } from "../../utils/placeholders"
 import { RegisterToBidButton } from "../Sale/Components/RegisterToBidButton"
 
-export const AuctionSupport = () => {
+export const AuctionSupport: React.FC<{ name: string }> = ({ name }) => {
   return (
     <Flex>
       <Sans px={2} size="5t" mb={15}>
@@ -28,7 +28,7 @@ export const AuctionSupport = () => {
       <MenuItem
         title="Contact us for help"
         onPress={() => {
-          Linking.openURL("mailto:specialist@artsy.net").catch((error) => {
+          Linking.openURL(`mailto:specialist@artsy.net?subject=Questions about “${name}”`).catch((error) => {
             console.log(error)
           })
         }}
@@ -99,7 +99,7 @@ export const SaleInfo: React.FC<Props> = ({ sale }) => {
         {Boolean(sale.liveStartAt) && <AuctionIsLive />}
 
         {/*  Auction Support */}
-        <AuctionSupport />
+        <AuctionSupport name={sale.name} />
       </Join>
     </ScrollView>
   )
