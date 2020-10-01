@@ -13,10 +13,6 @@ import { createFragmentContainer, graphql, QueryRenderer } from "react-relay"
 import { PlaceholderBox } from "../../utils/placeholders"
 import { RegisterToBidButton } from "../Sale/Components/RegisterToBidButton"
 
-interface Props {
-  sale: SaleInfo_sale
-}
-
 export const AuctionSupport = () => {
   return (
     <Flex>
@@ -51,6 +47,10 @@ export const AuctionIsLive = () => (
     </Text>
   </Flex>
 )
+
+interface Props {
+  sale: SaleInfo_sale
+}
 
 export const SaleInfo: React.FC<Props> = ({ sale }) => {
   const isLiveBiddingAvailable = () => {
