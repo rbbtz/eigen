@@ -99,7 +99,7 @@ export const SaleInfo: React.FC<Props> = ({ sale }) => {
         {Boolean(sale.liveStartAt) && <AuctionIsLive />}
 
         {/*  Auction Support */}
-        <AuctionSupport name={sale.name} />
+        <AuctionSupport name={sale.name!} />
       </Join>
     </ScrollView>
   )
