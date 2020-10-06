@@ -1,6 +1,6 @@
 import { fireEvent } from "@testing-library/react-native"
 import { Markdown } from "lib/Components/Markdown"
-import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
+import { renderWithWrappersTL } from "lib/tests/renderWithWrappers"
 import { Collapse } from "palette"
 import React from "react"
 import { TouchableWithoutFeedback } from "react-native"
@@ -12,14 +12,14 @@ describe("HoursCollapsible", () => {
   }
 
   it("renders properly", () => {
-    const tree = renderWithWrappers2(<HoursCollapsible openingHours={hours} />)
+    const tree = renderWithWrappersTL(<HoursCollapsible openingHours={hours} />)
 
     expect(tree.getByText("Opening hours")).toBeTruthy()
     expect(tree.UNSAFE_getByType(Collapse).props.open).toBe(false)
   })
 
   it("expands when pressed", () => {
-    const tree = renderWithWrappers2(<HoursCollapsible openingHours={hours} />)
+    const tree = renderWithWrappersTL(<HoursCollapsible openingHours={hours} />)
 
     fireEvent.press(tree.UNSAFE_getByType(TouchableWithoutFeedback))
 
@@ -31,7 +31,7 @@ describe("HoursCollapsible", () => {
       text: "**Collectors Preview**\r\nNovember 8 Thursday 14:00 to 20:00\r\n [November 9th](http://foo.bar)",
     }
 
-    const tree = renderWithWrappers2(<HoursCollapsible openingHours={markdownHours} />)
+    const tree = renderWithWrappersTL(<HoursCollapsible openingHours={markdownHours} />)
 
     fireEvent.press(tree.UNSAFE_getByType(TouchableWithoutFeedback))
 

@@ -1,6 +1,5 @@
-import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
+import { renderWithWrappersTL } from "lib/tests/renderWithWrappers"
 import React from "react"
-import { Text } from "react-native"
 import { RelayProp } from "react-relay"
 import { BMWEventSection } from "../index"
 
@@ -20,7 +19,7 @@ const show = {
 
 describe("CityEvent", () => {
   it("renders properly", () => {
-    const tree = renderWithWrappers2(
+    const tree = renderWithWrappersTL(
       <BMWEventSection
         title="BMW Art Guide"
         sponsoredContent={{

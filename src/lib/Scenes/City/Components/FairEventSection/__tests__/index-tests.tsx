@@ -1,4 +1,4 @@
-import { renderWithWrappers2 } from "lib/tests/renderWithWrappers"
+import { renderWithWrappersTL } from "lib/tests/renderWithWrappers"
 import React from "react"
 import { FairEventSection } from "../index"
 
@@ -18,7 +18,7 @@ const data = [
 
 describe("FairEventSection", () => {
   it("renders properly", () => {
-    const tree = renderWithWrappers2(<FairEventSection data={data} citySlug="tefaf-new-york-fall-2019" />)
+    const tree = renderWithWrappersTL(<FairEventSection data={data} citySlug="tefaf-new-york-fall-2019" />)
 
     expect(tree.getByText("TEFAF New York Fall 2019")).toBeTruthy()
   })
