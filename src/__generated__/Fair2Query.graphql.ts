@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
-/* @relayHash 52fa5760842d611294681af039eed0ef */
+/* @relayHash 619d356a3fba8122a4fdc42a215dd234 */
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
@@ -252,7 +252,7 @@ fragment Fair2Exhibitors_fair on Fair {
   }
 }
 
-fragment Fair2FollowedArtists_fair on Fair {
+fragment Fair2FollowedArtistsRail_fair on Fair {
   internalID
   slug
   followedArtistArtworks: filterArtworksConnection(includeArtworksByFollowedArtists: true, first: 20) {
@@ -329,7 +329,7 @@ fragment Fair2_fair on Fair {
   ...Fair2Collections_fair
   ...Fair2Artworks_fair
   ...Fair2Exhibitors_fair
-  ...Fair2FollowedArtists_fair
+  ...Fair2FollowedArtistsRail_fair
 }
 
 fragment InfiniteScrollArtworksGrid_connection on ArtworkConnectionInterface {
@@ -1544,7 +1544,7 @@ return {
     ]
   },
   "params": {
-    "id": "52fa5760842d611294681af039eed0ef",
+    "id": "619d356a3fba8122a4fdc42a215dd234",
     "metadata": {},
     "name": "Fair2Query",
     "operationKind": "query",
