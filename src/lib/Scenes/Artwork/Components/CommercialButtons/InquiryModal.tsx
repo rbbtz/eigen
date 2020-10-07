@@ -3,7 +3,7 @@ import { Checkbox } from "lib/Components/Bidding/Components/Checkbox"
 import { FancyModal } from "lib/Components/FancyModal/FancyModal"
 import { FancyModalHeader } from "lib/Components/FancyModal/FancyModalHeader"
 import ChevronIcon from "lib/Icons/ChevronIcon"
-import { Box, color, Flex, Separator, space, Text } from "palette"
+import { Box, color, Flex, Separator, space, Text, Touchable } from "palette"
 import React, { useState } from "react"
 import NavigatorIOS from "react-native-navigator-ios"
 import { createFragmentContainer, graphql } from "react-relay"
@@ -36,14 +36,16 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ artwork, ...props })
         {inquiry === "Shipping" && (
           <>
             <Separator my={2} />
-            <Flex flexDirection="row" justifyContent="space-between">
-              <Text variant="text" color="black60">
-                Add your location
-              </Text>
-              <Box mt={0.5}>
-                <ChevronIcon color="black60" />
-              </Box>
-            </Flex>
+            <Touchable onPress={() => setShippingModalVisibility(true)} underlayColor={color("black5")}>
+              <Flex flexDirection="row" justifyContent="space-between">
+                <Text variant="text" color="black60">
+                  Add your location
+                </Text>
+                <Box mt={0.5}>
+                  <ChevronIcon color="black60" />
+                </Box>
+              </Flex>
+            </Touchable>
           </>
         )}
       </InfoBox>
@@ -68,10 +70,7 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ artwork, ...props })
           })
         }
       </Box>
-      {/*<CollapsibleArtworkDetailsFragmentContainer artwork={artwork} />*/}
-      <Text m={2} variant="title">
-        More here
-      </Text>
+
       <Button
         onPress={() => setShippingModalVisibility(true)}
         size="large"
