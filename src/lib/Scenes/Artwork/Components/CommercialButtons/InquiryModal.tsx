@@ -4,11 +4,14 @@ import { FancyModal } from "lib/Components/FancyModal/FancyModal"
 import { FancyModalHeader } from "lib/Components/FancyModal/FancyModalHeader"
 import ChevronIcon from "lib/Icons/ChevronIcon"
 import { Box, color, Flex, Separator, space, Text } from "palette"
-import React from "react"
+import React, { useState } from "react"
 import NavigatorIOS from "react-native-navigator-ios"
 import { createFragmentContainer, graphql } from "react-relay"
 import styled from "styled-components/native"
 import { CollapsibleArtworkDetailsFragmentContainer } from "./CollapsibleArtworkDetails"
+
+import { Button } from "palette"
+import { ShippingModal } from "./ShippingModal"
 
 interface InquiryModalProps {
   artwork: InquiryModal_artwork
@@ -46,6 +49,8 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ artwork, ...props })
       </InfoBox>
     )
   }
+  const [shippingModalVisibility, setShippingModalVisibility] = useState(false)
+  const [location, setLocation] = useState<any>(null)
 
   return (
     <FancyModal visible={modalIsVisible} onBackgroundPressed={() => toggleVisibility()}>
@@ -63,6 +68,24 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ artwork, ...props })
           })
         }
       </Box>
+      {/*<CollapsibleArtworkDetailsFragmentContainer artwork={artwork} />*/}
+      <Text m={2} variant="title">
+        More here
+      </Text>
+      <Button
+        onPress={() => setShippingModalVisibility(true)}
+        size="large"
+        block
+        width={100}
+        variant="secondaryOutline"
+      >
+        Open Shipping Modal
+      </Button>
+      <ShippingModal
+        toggleVisibility={() => setShippingModalVisibility(!shippingModalVisibility)}
+        modalIsVisible={shippingModalVisibility}
+        setLocation={setLocation}
+      />
     </FancyModal>
   )
 }
