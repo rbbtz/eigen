@@ -56,6 +56,7 @@ function getDomainMap(): Record<string, RouteMatcher[] | null> {
         new RouteMatcher("/fair/:fairID/exhibitors", "Fair2"),
         new RouteMatcher("/fair/:fairID/info", "Fair2MoreInfo"),
         new RouteMatcher("/fair/:fairID/bmw-sponsored-content", "FairBMWArtActivation"),
+        new RouteMatcher("/fair/:fairID/followedArtists", "Fair2AllFollowedArtists"),
       ]
     : [
         new RouteMatcher("/fair/:fairID", "Fair"),
