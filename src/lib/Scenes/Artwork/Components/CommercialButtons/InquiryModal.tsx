@@ -38,9 +38,15 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ artwork, ...props })
             <Separator my={2} />
             <Touchable onPress={() => setShippingModalVisibility(true)} underlayColor={color("black5")}>
               <Flex flexDirection="row" justifyContent="space-between">
-                <Text variant="text" color="black60">
-                  Add your location
-                </Text>
+                {location ? (
+                  <Text variant="text" color="black100">
+                    {JSON.stringify(location)}
+                  </Text>
+                ) : (
+                  <Text variant="text" color="black60">
+                    Add your location
+                  </Text>
+                )}
                 <Box mt={0.5}>
                   <ChevronIcon color="black60" />
                 </Box>
