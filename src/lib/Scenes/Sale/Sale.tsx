@@ -3,11 +3,14 @@ import { Sale_sale } from "__generated__/Sale_sale.graphql"
 import { SaleQueryRendererQuery } from "__generated__/SaleQueryRendererQuery.graphql"
 import Spinner from "lib/Components/Spinner"
 import { SwitchMenu } from "lib/Components/SwitchMenu"
+import { navigate, popParentViewController } from "lib/navigation/navigate"
 import { defaultEnvironment } from "lib/relay/createEnvironment"
+import { useIsStaging } from "lib/store/AppStore"
 import { extractNodes } from "lib/utils/extractNodes"
 import { renderWithPlaceholder } from "lib/utils/renderWithPlaceholder"
-import { Flex } from "palette"
-import React, { useRef, useState } from "react"
+import moment from "moment"
+import { Button, Flex } from "palette"
+import React, { useEffect, useRef, useState } from "react"
 import { Animated } from "react-native"
 import { createFragmentContainer, graphql, QueryRenderer } from "react-relay"
 import { RegisterToBidButton } from "./Components/RegisterToBidButton"
@@ -31,8 +34,42 @@ const Sale: React.FC<Props> = (props) => {
   const saleArtworks = extractNodes(props.sale.saleArtworksConnection)
   const scrollAnim = useRef(new Animated.Value(0)).current
 
+  let intervalId: NodeJS.Timeout
+
+  useEffect(() => {
+    // TODO: Don't set up for auctions without a live component
+    intervalId = setInterval(checkIfSaleIsLive, 1000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
+  const checkIfSaleIsLive = () => {
+    const liveStartAt = props.sale.liveStartAt
+    if (liveStartAt) {
+      const currentTime = moment()
+      const isLiveOpen = currentTime.isAfter(liveStartAt)
+      if (isLiveOpen) {
+        switchToLive()
+      }
+    }
+  }
+
   const switchView = (value: boolean) => {
     setShowGrid(value)
+  }
+
+  const isStaging = useIsStaging()
+
+  const liveAuctionUrl = (): string => {
+    return isStaging ? "https://live-staging.artsy.net" : "https://live.artsy.net"
+  }
+
+  const switchToLive = () => {
+    const { slug } = props.sale
+    const liveUrl = liveAuctionUrl()
+    navigate(`${liveUrl}/${slug}`)
+    setTimeout(popParentViewController, 500)
   }
 
   const saleSectionsData: SaleSection[] = [
@@ -45,6 +82,20 @@ const Sale: React.FC<Props> = (props) => {
       content: (
         <Flex mx="2" mt={2}>
           <RegisterToBidButton sale={props.sale} />
+        </Flex>
+      ),
+    },
+    {
+      key: "switchToLive",
+      content: (
+        <Flex mx="2" mt={2}>
+          <Button
+            onPress={() => {
+              switchToLive()
+            }}
+          >
+            Go Live
+          </Button>
         </Flex>
       ),
     },
@@ -98,6 +149,8 @@ const Sale: React.FC<Props> = (props) => {
 export const SaleContainer = createFragmentContainer(Sale, {
   sale: graphql`
     fragment Sale_sale on Sale {
+      slug
+      liveStartAt
       ...SaleHeader_sale
       ...RegisterToBidButton_sale
       saleArtworksConnection(first: 10) {

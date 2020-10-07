@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
-/* @relayHash 93eb990f6158385877cbaab4ead49e7e */
+/* @relayHash 4ab410c9880ef27e3b6b0f2c0666680e */
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
@@ -234,6 +234,8 @@ fragment Sale_me on Me {
 }
 
 fragment Sale_sale on Sale {
+  slug
+  liveStartAt
   ...SaleHeader_sale
   ...RegisterToBidButton_sale
   saleArtworksConnection(first: 10) {
@@ -266,28 +268,28 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "slug",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "internalID",
+  "name": "name",
   "storageKey": null
 },
 v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "endAt",
+  "name": "internalID",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "slug",
+  "name": "endAt",
   "storageKey": null
 },
 v6 = {
@@ -359,7 +361,7 @@ v12 = {
       "name": "displayTimelyAt",
       "storageKey": null
     },
-    (v4/*: any*/),
+    (v5/*: any*/),
     (v6/*: any*/)
   ],
   "storageKey": null
@@ -408,7 +410,7 @@ v15 = {
   "name": "partner",
   "plural": false,
   "selections": [
-    (v2/*: any*/),
+    (v3/*: any*/),
     (v6/*: any*/)
   ],
   "storageKey": null
@@ -502,7 +504,6 @@ return {
         "plural": false,
         "selections": [
           (v2/*: any*/),
-          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -510,7 +511,9 @@ return {
             "name": "liveStartAt",
             "storageKey": null
           },
+          (v3/*: any*/),
           (v4/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -543,7 +546,6 @@ return {
             ],
             "storageKey": null
           },
-          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -625,8 +627,8 @@ return {
                           (v9/*: any*/),
                           (v10/*: any*/),
                           (v11/*: any*/),
-                          (v5/*: any*/),
-                          (v3/*: any*/),
+                          (v2/*: any*/),
+                          (v4/*: any*/),
                           (v12/*: any*/),
                           {
                             "alias": null,
@@ -703,7 +705,7 @@ return {
                     "selections": [
                       (v18/*: any*/),
                       (v6/*: any*/),
-                      (v3/*: any*/),
+                      (v4/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -719,7 +721,7 @@ return {
                         "storageKey": null
                       },
                       (v10/*: any*/),
-                      (v5/*: any*/),
+                      (v2/*: any*/),
                       (v11/*: any*/),
                       (v9/*: any*/),
                       (v12/*: any*/),
@@ -914,7 +916,7 @@ return {
     ]
   },
   "params": {
-    "id": "93eb990f6158385877cbaab4ead49e7e",
+    "id": "4ab410c9880ef27e3b6b0f2c0666680e",
     "metadata": {},
     "name": "SaleQueryRendererQuery",
     "operationKind": "query",
