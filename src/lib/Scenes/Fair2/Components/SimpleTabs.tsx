@@ -53,6 +53,7 @@ export const Tabs: React.FC<TabsProps> = ({ setActiveTab, activeTab, tabs }) => 
         const active = activeTab === index
         return (
           <Box
+            key={label}
             width={`${tabWidth}%`}
             borderBottomColor={active ? color("black100") : color("black10")}
             borderBottomWidth="1px"
