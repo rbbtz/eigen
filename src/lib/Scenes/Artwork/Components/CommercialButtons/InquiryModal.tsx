@@ -3,8 +3,9 @@ import { Checkbox } from "lib/Components/Bidding/Components/Checkbox"
 import { FancyModal } from "lib/Components/FancyModal/FancyModal"
 import { FancyModalHeader } from "lib/Components/FancyModal/FancyModalHeader"
 import ChevronIcon from "lib/Icons/ChevronIcon"
+import { ArtworkInquiryContext } from "lib/utils/ArtworkInquiry/ArtworkInquiryStore"
 import { Box, color, Flex, Separator, space, Text } from "palette"
-import React from "react"
+import React, { useContext } from "react"
 import NavigatorIOS from "react-native-navigator-ios"
 import { createFragmentContainer, graphql } from "react-relay"
 import styled from "styled-components/native"
@@ -22,12 +23,13 @@ interface InquiryModalProps {
 export const InquiryModal: React.FC<InquiryModalProps> = ({ artwork, ...props }) => {
   const { toggleVisibility, modalIsVisible } = props
   const questions = artwork?.inquiryQuestions!
+  const { state } = useContext(ArtworkInquiryContext)
 
   const renderInquiryQuestion = (inquiry: string): JSX.Element => {
     return (
       <InfoBox key={inquiry}>
         <Flex flexDirection="row">
-          <Checkbox />
+          <Checkbox checked={state.inquiryType === "Request Price" && inquiry === "Price & Availability"} />
           <Text variant="text">{inquiry}</Text>
         </Flex>
         {inquiry === "Shipping" && (
