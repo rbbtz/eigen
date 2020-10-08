@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 // @ts-nocheck
-/* @relayHash 7615c6570e2e8293f6995f06909791af */
+/* @relayHash 52fa5760842d611294681af039eed0ef */
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
@@ -109,7 +109,10 @@ fragment Fair2Artworks_fair on Fair {
 }
 
 fragment Fair2Collections_fair on Fair {
+  internalID
+  slug
   marketingCollections(size: 4) {
+    internalID
     slug
     title
     category
@@ -129,10 +132,14 @@ fragment Fair2Collections_fair on Fair {
 }
 
 fragment Fair2Editorial_fair on Fair {
+  internalID
+  slug
   articles: articlesConnection(first: 5, sort: PUBLISHED_AT_DESC) {
     edges {
       node {
         id
+        internalID
+        slug
         title
         href
         publishedAt(format: "MMM Do, YY")
@@ -146,6 +153,7 @@ fragment Fair2Editorial_fair on Fair {
 
 fragment Fair2ExhibitorRail_show on Show {
   internalID
+  slug
   href
   partner {
     __typename
@@ -163,6 +171,11 @@ fragment Fair2ExhibitorRail_show on Show {
   }
   counts {
     artworks
+  }
+  fair {
+    internalID
+    slug
+    id
   }
   artworks: artworksConnection(first: 20) {
     edges {
@@ -205,6 +218,7 @@ fragment Fair2ExhibitorRail_show on Show {
 }
 
 fragment Fair2Exhibitors_fair on Fair {
+  internalID
   slug
   exhibitors: showsConnection(first: 15, sort: FEATURED_ASC) {
     edges {
@@ -239,11 +253,13 @@ fragment Fair2Exhibitors_fair on Fair {
 }
 
 fragment Fair2FollowedArtists_fair on Fair {
+  internalID
   slug
   followedArtistArtworks: filterArtworksConnection(includeArtworksByFollowedArtists: true, first: 20) {
     edges {
       artwork: node {
         id
+        internalID
         slug
         ...ArtworkTileRailCard_artwork
       }
@@ -259,12 +275,12 @@ fragment Fair2Header_fair on Fair {
   slug
   profile {
     icon {
-      url(version: "untouched-png")
+      imageUrl: url(version: "untouched-png")
     }
     id
   }
   image {
-    url(version: "large_rectangle")
+    imageUrl: url(version: "large_rectangle")
     aspectRatio
   }
   tagline
@@ -273,10 +289,10 @@ fragment Fair2Header_fair on Fair {
     id
   }
   ticketsLink
-  hours(format: MARKDOWN)
-  links(format: MARKDOWN)
-  tickets(format: MARKDOWN)
-  contact(format: MARKDOWN)
+  fairHours: hours(format: MARKDOWN)
+  fairLinks: links(format: MARKDOWN)
+  fairTickets: tickets(format: MARKDOWN)
+  fairContact: contact(format: MARKDOWN)
   ...Fair2Timing_fair
 }
 
@@ -685,6 +701,8 @@ return {
                     "plural": false,
                     "selections": [
                       (v5/*: any*/),
+                      (v2/*: any*/),
+                      (v3/*: any*/),
                       (v6/*: any*/),
                       (v7/*: any*/),
                       {
@@ -743,6 +761,7 @@ return {
             "selections": [
               (v4/*: any*/),
               (v5/*: any*/),
+              (v2/*: any*/),
               (v3/*: any*/),
               (v6/*: any*/),
               {
@@ -872,8 +891,8 @@ return {
                     "plural": false,
                     "selections": [
                       (v5/*: any*/),
-                      (v3/*: any*/),
                       (v2/*: any*/),
+                      (v3/*: any*/),
                       (v7/*: any*/),
                       (v10/*: any*/),
                       {
@@ -925,7 +944,7 @@ return {
                 "plural": false,
                 "selections": [
                   {
-                    "alias": null,
+                    "alias": "imageUrl",
                     "args": [
                       {
                         "kind": "Literal",
@@ -953,7 +972,7 @@ return {
             "plural": false,
             "selections": [
               {
-                "alias": null,
+                "alias": "imageUrl",
                 "args": [
                   {
                     "kind": "Literal",
@@ -997,28 +1016,28 @@ return {
             "storageKey": null
           },
           {
-            "alias": null,
+            "alias": "fairHours",
             "args": (v16/*: any*/),
             "kind": "ScalarField",
             "name": "hours",
             "storageKey": "hours(format:\"MARKDOWN\")"
           },
           {
-            "alias": null,
+            "alias": "fairLinks",
             "args": (v16/*: any*/),
             "kind": "ScalarField",
             "name": "links",
             "storageKey": "links(format:\"MARKDOWN\")"
           },
           {
-            "alias": null,
+            "alias": "fairTickets",
             "args": (v16/*: any*/),
             "kind": "ScalarField",
             "name": "tickets",
             "storageKey": "tickets(format:\"MARKDOWN\")"
           },
           {
-            "alias": null,
+            "alias": "fairContact",
             "args": (v16/*: any*/),
             "kind": "ScalarField",
             "name": "contact",
@@ -1375,7 +1394,22 @@ return {
                         "storageKey": null
                       },
                       (v2/*: any*/),
+                      (v3/*: any*/),
                       (v7/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "Fair",
+                        "kind": "LinkedField",
+                        "name": "fair",
+                        "plural": false,
+                        "selections": [
+                          (v2/*: any*/),
+                          (v3/*: any*/),
+                          (v5/*: any*/)
+                        ],
+                        "storageKey": null
+                      },
                       {
                         "alias": "artworks",
                         "args": [
@@ -1510,7 +1544,7 @@ return {
     ]
   },
   "params": {
-    "id": "7615c6570e2e8293f6995f06909791af",
+    "id": "52fa5760842d611294681af039eed0ef",
     "metadata": {},
     "name": "Fair2Query",
     "operationKind": "query",
