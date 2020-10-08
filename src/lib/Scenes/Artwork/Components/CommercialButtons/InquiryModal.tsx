@@ -9,8 +9,6 @@ import NavigatorIOS from "react-native-navigator-ios"
 import { createFragmentContainer, graphql } from "react-relay"
 import styled from "styled-components/native"
 import { CollapsibleArtworkDetailsFragmentContainer } from "./CollapsibleArtworkDetails"
-
-import { Button } from "palette"
 import { ShippingModal } from "./ShippingModal"
 
 interface InquiryModalProps {
@@ -76,16 +74,6 @@ export const InquiryModal: React.FC<InquiryModalProps> = ({ artwork, ...props })
           })
         }
       </Box>
-
-      <Button
-        onPress={() => setShippingModalVisibility(true)}
-        size="large"
-        block
-        width={100}
-        variant="secondaryOutline"
-      >
-        Open Shipping Modal
-      </Button>
       <ShippingModal
         toggleVisibility={() => setShippingModalVisibility(!shippingModalVisibility)}
         modalIsVisible={shippingModalVisibility}

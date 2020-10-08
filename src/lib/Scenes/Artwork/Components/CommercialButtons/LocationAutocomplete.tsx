@@ -1,8 +1,9 @@
 import { Input } from "lib/Components/Input/Input"
-import { Flex, Text, Touchable } from "palette"
+import { Flex, LocationIcon, Text, Touchable } from "palette"
 import { stringify } from "qs"
 import React, { useState } from "react"
 import Config from "react-native-config"
+import styled from "styled-components/native"
 
 interface Props {
   onChange: any
@@ -40,7 +41,7 @@ class GmapsApi {
   }
 }
 
-export const LocationAutocomplete: React.FC<Props> = ({ onChange, ...props }) => {
+export const LocationAutocomplete: React.FC<Props> = ({ onChange }) => {
   const [predictions, setPredictions] = useState<Location[]>([])
 
   const inputChange = async (str: string): Promise<void> => {
@@ -57,11 +58,11 @@ export const LocationAutocomplete: React.FC<Props> = ({ onChange, ...props }) =>
     <>
       <Text>Location</Text>
       <Input placeholder="Add Location" style={{ marginVertical: 10 }} onChangeText={inputChange} />
+      <LocationPredictions predictions={predictions} />
       <Text color="black60">
         Sharing your location with galleries helps them provide fast and accurate shipping quotes. You can always edit
         this information later in your Collector Profile.
       </Text>
-      <LocationPredictions predictions={predictions} />
     </>
   )
 }
@@ -71,18 +72,31 @@ const LocationPredictions = ({ predictions }: { predictions: Location[] }) => {
     return null
   }
   return (
-    <Flex>
+    <Dropdown>
       {predictions.map((p) => (
         <Touchable
           key={p.id}
           onPress={() => {
             console.warn(`selected ${p.name}...`)
           }}
+          style={{ padding: 10 }}
         >
-          <Text>{p.name}</Text>
+          <Flex flexDirection="row">
+            <LocationIcon mr={1} />
+            <Text>{p.name}</Text>
+          </Flex>
         </Touchable>
       ))}
-      <Text>👁 Brought to you by google 👁</Text>
-    </Flex>
+    </Dropdown>
   )
 }
+
+const Dropdown = styled(Flex)`
+  background-color: white;
+  border: solid 1px #e5e5e5;
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  top: 70;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.12);
+`
