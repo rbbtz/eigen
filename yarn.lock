@@ -2355,10 +2355,9 @@
     ramda "^0.26.1"
     redent "^2.0.0"
 
-"@testing-library/react-native@7.0.2":
+"@testing-library/react-native@https://github.com/pvinis/react-native-testing-library.git#add-getByTextWithType":
   version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@testing-library/react-native/-/react-native-7.0.2.tgz#fd00b4c5639f606a07b20d0fec5a4cbfc3851efa"
-  integrity sha512-mOnsEgdbIvXa2cpZz+DTWiqtgObHRICujBGVXHVc1Wr9HbD7mMXIVPiOaUZPL6Wufw23FTy1pqAUIuQydtBc1Q==
+  resolved "https://github.com/pvinis/react-native-testing-library.git#a2d4d6b119b2f0cf4f63920b4994b468fabf6187"
   dependencies:
     pretty-format "^26.0.1"
 
